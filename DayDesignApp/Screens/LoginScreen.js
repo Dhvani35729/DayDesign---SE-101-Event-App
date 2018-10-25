@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 
-export class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
+
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
@@ -12,18 +13,18 @@ export class LoginScreen extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.nav;
     return (
       <View style={loginStyles.container}>
         <Text
           style={loginStyles.title}>DayDesign</Text>
-        <TextInput 
+        <TextInput
           placeholder="Username"
           style={loginStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white" />
-        <TextInput 
+        <TextInput
           placeholder="Password"
           style={loginStyles.credentialsInput}
           placeholderTextColor="white"
@@ -32,11 +33,11 @@ export class LoginScreen extends React.Component {
         <TouchableOpacity
           onPress={this.authenticate}
           style={loginStyles.loginButton}>
-          <Text 
+          <Text
             style={loginStyles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate("CreateAccount")}>
+          onPress={() => navigate("CreateAccountScreen")}>
           <Text
             style={loginStyles.noAccountText}>{"Don't have an account? Tap here to create one."}</Text>
         </TouchableOpacity>
@@ -87,3 +88,5 @@ const loginStyles = StyleSheet.create({
     marginBottom: 75,
   }
 });
+
+export default LoginScreen

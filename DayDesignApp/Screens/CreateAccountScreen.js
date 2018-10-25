@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 
-export class CreateAccountScreen extends React.Component {
+class CreateAccountScreen extends React.Component {
 
   constructor(props) {
     super();
@@ -13,8 +13,10 @@ export class CreateAccountScreen extends React.Component {
   }
 
   render() {
+      const { navigate } = this.props.nav;
+
     return (
-      <View 
+      <View
         style={createAccountStyles.container}>
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
@@ -36,13 +38,13 @@ export class CreateAccountScreen extends React.Component {
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white" />
-        <TextInput 
+        <TextInput
           placeholder="Username"
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white" />
-        <TextInput 
+        <TextInput
           placeholder="Password"
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
@@ -53,6 +55,12 @@ export class CreateAccountScreen extends React.Component {
           style={createAccountStyles.createAccountButton}>
           <Text
             style={createAccountStyles.createAccountButtonText}>Create Account</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate("LoginScreen")}
+          style={createAccountStyles.backButton}>
+          <Text
+            style={createAccountStyles.backButtonText}>Back</Text>
         </TouchableOpacity>
       </View>
     );
@@ -90,13 +98,29 @@ const createAccountStyles = StyleSheet.create({
     backgroundColor: "#3da4ab",
     paddingTop: 10,
     paddingBottom: 10,
-    marginBottom: 50,
     marginTop: 50,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
+    marginBottom: 5
+  },
+  backButton: {
+    alignItems: "center",
+    backgroundColor: "#3da4ab",
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 5,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 50
   },
   createAccountButtonText: {
     fontSize: 20,
     color: "white",
+  },
+  backButtonText: {
+    fontSize: 20,
+    color: "white",
   }
 });
+
+export default CreateAccountScreen

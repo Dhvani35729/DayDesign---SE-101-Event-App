@@ -1,6 +1,8 @@
+Instructions to run:
+
+npm install
+
 Requirements:
  - React
  - React Native
- - React Navigation
-
-
+ - react-native-swipe-navigation

@@ -1,15 +1,21 @@
-import { createStackNavigator } from 'react-navigation';
-import { LoginScreen } from './Screens/LoginScreen';
-import { CreateAccountScreen } from './Screens/CreateAccountScreen';
+import React, { Component } from 'react';
+import { View, StyleSheet } from 'react-native';
+import Navigator from './Navigator'
 
-const App = createStackNavigator(
-  {
-    Login: { screen: LoginScreen },
-    CreateAccount: { screen: CreateAccountScreen },
-  },
-  {
-    initialRouteName: 'Login',
+class App extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Navigator />
+      </View>
+    );
   }
-);
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;
