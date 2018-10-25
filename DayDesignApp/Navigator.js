@@ -36,7 +36,7 @@ const Navigator = SwipeNavigator({
 
   Metrics: {
     screen: Metrics,
-    type: 'over',
+    type: 'push',
   },
 
   Projector: {
@@ -47,11 +47,12 @@ const Navigator = SwipeNavigator({
   Todo: {
     screen: Todo,
     right: 'Automate',
+    type: 'over'
   },
 
   Automate: {
     screen: Automate,
-    type: 'over',
+    type: 'place',
     color: '#fbb464',
   },
 
