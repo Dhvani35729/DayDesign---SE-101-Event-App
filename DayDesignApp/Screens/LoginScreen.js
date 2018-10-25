@@ -10,6 +10,7 @@ class LoginScreen extends React.Component {
 
   authenticate() {
     //Firebase authentication stuff, using the username and password inputted (actually probably email)
+    this.props.nav.navigate("Calendar");
   }
 
   render() {

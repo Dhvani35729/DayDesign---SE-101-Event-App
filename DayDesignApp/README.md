@@ -1,6 +1,6 @@
 Instructions to run:
 
-npm install
+  npm install
 
 Requirements:
  - React
