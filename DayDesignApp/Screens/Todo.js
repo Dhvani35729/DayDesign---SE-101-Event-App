@@ -1,18 +1,21 @@
 import React from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 
+/*Button to add a list item; prompt for title and description, possibly other information
+  such as the date the user would like to complete it by. Click on item to display more information,
+  and finish tasks by swiping? 
+*/
+
 class Todo extends React.Component {
 
   componentDidMount() {
     const { nav } = this.props
-
-
   }
 
   render() {
     const data = [{title: "Feed the horses", description: "Use the pitchfork to get some hay for the horses."}, 
                   {title: "Feed the cats", description: "Get the cat food from the pantry and fill the bowl beside the door."}];
-                  
+
     return (
       <View style={{flex: 1, backgroundColor: '#64fb71'}}>
         <Text style={styles.title}>Todo</Text>
