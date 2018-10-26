@@ -10,9 +10,9 @@ class Todo extends React.Component {
   }
 
   render() {
-    const data = [{title: "Feed the horses", description: "Use the pitchfork to get some hay for the horses"}, 
-                  {title: "Feed the cats", description: "Get the cat food from the pantry and fill the bowl beside the door"}];
-
+    const data = [{title: "Feed the horses", description: "Use the pitchfork to get some hay for the horses."}, 
+                  {title: "Feed the cats", description: "Get the cat food from the pantry and fill the bowl beside the door."}];
+                  
     return (
       <View style={{flex: 1, backgroundColor: '#64fb71'}}>
         <Text style={styles.title}>Todo</Text>
@@ -36,11 +36,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 30,
   },
-  todoList: {
-    marginLeft: 20,
-  },
   todoListItem: {
-    marginBottom: 5,
+    marginBottom: 7.5,
   },
   todoListItemTitle: {
     fontSize: 16,
@@ -48,6 +45,9 @@ const styles = StyleSheet.create({
   todoListItemDescription: {
     fontSize: 12,
   },
+  todoList: {
+    marginLeft: 20,
+  }
 })
 
 export default Todo
