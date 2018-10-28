@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
+import firebase from 'react-native-firebase'
 
 class CreateAccountScreen extends React.Component {
+    state = { email: '', password: '', errorMessage: null }
 
   constructor(props) {
     super();
@@ -10,6 +12,12 @@ class CreateAccountScreen extends React.Component {
 
   createAccount() {
     //Add account to Firebase through this method
+    const { email, password } = this.state
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(user => this.props.nav.navigate('LoginScreen'))
+    .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render() {
@@ -20,6 +28,10 @@ class CreateAccountScreen extends React.Component {
         style={createAccountStyles.container}>
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
+          {this.state.errorMessage &&
+       <Text style={{ color: 'red' }}>
+         {this.state.errorMessage}
+       </Text>}
         <TextInput
           placeholder="First Name"
           style={createAccountStyles.credentialsInput}
@@ -37,7 +49,9 @@ class CreateAccountScreen extends React.Component {
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          selectionColor="white"
+          onChangeText={email => this.setState({ email })}
+          value={this.state.email} />
         <TextInput
           placeholder="Username"
           style={createAccountStyles.credentialsInput}
@@ -49,7 +63,9 @@ class CreateAccountScreen extends React.Component {
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          selectionColor="white"
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password} />
         <TouchableOpacity
           onPress={this.createAccount}
           style={createAccountStyles.createAccountButton}>

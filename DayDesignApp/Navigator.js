@@ -8,8 +8,14 @@ import Projector from './Screens/Projector'
 import Todo from './Screens/Todo'
 import Automate from './Screens/Automate'
 import Profile from './Screens/Profile'
+import Loading from './Screens/Loading'
 
 const Navigator = SwipeNavigator({
+
+  Loading: {
+    screen: Loading,
+    type: 'over',
+  },
 
   LoginScreen: {
     screen: LoginScreen,

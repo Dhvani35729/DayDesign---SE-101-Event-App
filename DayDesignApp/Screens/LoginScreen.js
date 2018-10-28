@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
+import firebase from 'react-native-firebase'
 
 class LoginScreen extends React.Component {
+    state = { email: '', password: '', errorMessage: null }
 
   constructor(props) {
     super(props);
@@ -10,7 +12,15 @@ class LoginScreen extends React.Component {
 
   authenticate() {
     //Firebase authentication stuff, using the username and password inputted (actually probably email)
-    this.props.nav.navigate("Calendar");
+    // this.props.nav.navigate("Calendar");
+    const { email, password } = this.state
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => this.props.nav.navigate('Calendar'))
+      .catch(error => this.setState({ errorMessage: error.message }))
+
+      console.log(this.state.errorMessage)
   }
 
   render() {
@@ -20,17 +30,26 @@ class LoginScreen extends React.Component {
         <Text
           style={loginStyles.title}>DayDesign</Text>
         <TextInput
-          placeholder="Username"
+          placeholder="Email"
           style={loginStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          type="email"
+          selectionColor="white"
+          onChangeText={email => this.setState({ email })}
+          value={this.state.email}/>
         <TextInput
           placeholder="Password"
           style={loginStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          selectionColor="white"
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}/>
+          {this.state.errorMessage &&
+         <Text style={{ color: 'red' }}>
+           {this.state.errorMessage}
+         </Text>}
         <TouchableOpacity
           onPress={this.authenticate}
           style={loginStyles.loginButton}>

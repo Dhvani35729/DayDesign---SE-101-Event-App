@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native'
 
 /*Button to add a list item; prompt for title and description, possibly other information
   such as the date the user would like to complete it by. Click on item to display more information,
-  and finish tasks by swiping? 
+  and finish tasks by swiping?
 */
 
 class Todo extends React.Component {
@@ -13,7 +13,7 @@ class Todo extends React.Component {
   }
 
   render() {
-    const data = [{title: "Feed the horses", description: "Use the pitchfork to get some hay for the horses."}, 
+    const data = [{title: "Feed the horses", description: "Use the pitchfork to get some hay for the horses."},
                   {title: "Feed the cats", description: "Get the cat food from the pantry and fill the bowl beside the door."}];
 
     return (
@@ -21,7 +21,7 @@ class Todo extends React.Component {
         <Text style={styles.title}>Todo</Text>
         <FlatList
           data={data}
-          renderItem={ ({item}) => 
+          renderItem={ ({item}) =>
             <View
               style={styles.todoListItem}>
               <Text style={styles.todoListItemTitle}>{item.title}</Text>
