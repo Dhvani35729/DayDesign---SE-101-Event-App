@@ -1,11 +1,11 @@
 Instructions to run:
 
-  npm install
-  cd ios
-  pod install
-  cd ..
-  npm start
-  npm run ios (num run android)
+  npm install \n
+  cd ios \n
+  pod install \n
+  cd .. \n
+  npm start \n
+  npm run ios (num run android) \n
 
 Requirements:
  - React
