@@ -7,7 +7,7 @@ class Calendar extends React.Component {
 
   componentDidMount() {
     const { nav } = this.props
-      const { currentUser } = firebase.auth()
+    const { currentUser } = firebase.auth()
 
     this.setState({ currentUser })
   }

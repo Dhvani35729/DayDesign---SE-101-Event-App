@@ -13,11 +13,14 @@ class CreateAccountScreen extends React.Component {
   createAccount() {
     //Add account to Firebase through this method
     const { email, password } = this.state
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(user => this.props.nav.navigate('LoginScreen'))
-    .catch(error => this.setState({ errorMessage: error.message }))
+    firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(user => {
+              user.user.sendEmailVerification();
+              this.props.nav.navigate('LoginScreen');
+            })
+            .catch(error => this.setState({ errorMessage: error.message }))
+
   }
 
   render() {

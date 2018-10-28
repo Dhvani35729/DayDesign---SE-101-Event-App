@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'rea
 import firebase from 'react-native-firebase'
 
 class LoginScreen extends React.Component {
-    state = { email: '', password: '', errorMessage: null }
+  state = { email: '', password: '', errorMessage: null }
 
   constructor(props) {
     super(props);
@@ -11,7 +11,6 @@ class LoginScreen extends React.Component {
   }
 
   authenticate() {
-    //Firebase authentication stuff, using the username and password inputted (actually probably email)
     // this.props.nav.navigate("Calendar");
     const { email, password } = this.state
     firebase
