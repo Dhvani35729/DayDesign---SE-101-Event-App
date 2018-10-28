@@ -1,8 +1,8 @@
 Instructions to run:
 
-  npm install \n
-  cd ios \n
-  pod install \n
+  npm install <br />
+  cd ios   
+  pod install   
   cd .. \n
   npm start \n
   npm run ios (num run android) \n
