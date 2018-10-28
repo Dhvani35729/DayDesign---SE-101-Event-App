@@ -13,12 +13,18 @@ class CreateAccountScreen extends React.Component {
   createAccount() {
     //Add account to Firebase through this method
     const { email, password } = this.state
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(user => this.props.nav.navigate('LoginScreen'))
-    .catch(error => this.setState({ errorMessage: error.message }))
-  }
+    if(email.trim() == "" || password.trim() == ""){
+      this.setState({errorMessage: "Please fill in all fields!"})
+    }
+    else{
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(user => this.props.nav.navigate('LoginScreen'))
+        .catch(error => this.setState({ errorMessage: error.message }))
+      }
+    }
+
 
   render() {
       const { navigate } = this.props.nav;
@@ -28,6 +34,7 @@ class CreateAccountScreen extends React.Component {
         style={createAccountStyles.container}>
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
+
           {this.state.errorMessage &&
        <Text style={{ color: 'red' }}>
          {this.state.errorMessage}
@@ -50,6 +57,8 @@ class CreateAccountScreen extends React.Component {
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white"
+          autoCapitalize = 'none'
+          textContentType="emailAddress"
           onChangeText={email => this.setState({ email })}
           value={this.state.email} />
         <TextInput
@@ -57,6 +66,8 @@ class CreateAccountScreen extends React.Component {
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
+          autoCapitalize = 'none'
+          textContentType="username"
           selectionColor="white" />
         <TextInput
           placeholder="Password"
@@ -64,6 +75,8 @@ class CreateAccountScreen extends React.Component {
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white"
+          autoCapitalize = 'none'
+          textContentType="password"
           onChangeText={password => this.setState({ password })}
           value={this.state.password} />
         <TouchableOpacity

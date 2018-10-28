@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import firebase from 'react-native-firebase'
 
 class LoginScreen extends React.Component {
@@ -14,11 +14,17 @@ class LoginScreen extends React.Component {
     //Firebase authentication stuff, using the username and password inputted (actually probably email)
     // this.props.nav.navigate("Calendar");
     const { email, password } = this.state
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.nav.navigate('Calendar'))
-      .catch(error => this.setState({ errorMessage: error.message }))
+    if(email.trim() == "" || password.trim() == ""){
+      this.setState({errorMessage: "Please fill in all fields!"})
+    }
+    else{
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => this.props.nav.navigate('Calendar'))
+        .catch(error => this.setState({ errorMessage: error.message }))
+    }
+
 
       console.log(this.state.errorMessage)
   }
@@ -29,6 +35,7 @@ class LoginScreen extends React.Component {
       <View style={loginStyles.container}>
         <Text
           style={loginStyles.title}>DayDesign</Text>
+        <KeyboardAvoidingView behavior="padding" enabled>
         <TextInput
           placeholder="Email"
           style={loginStyles.credentialsInput}
@@ -36,6 +43,8 @@ class LoginScreen extends React.Component {
           underlineColorAndroid="white"
           type="email"
           selectionColor="white"
+          autoCapitalize = 'none'
+          textContentType="emailAddress"
           onChangeText={email => this.setState({ email })}
           value={this.state.email}/>
         <TextInput
@@ -44,12 +53,15 @@ class LoginScreen extends React.Component {
           placeholderTextColor="white"
           underlineColorAndroid="white"
           selectionColor="white"
+          textContentType="password"
+          autoCapitalize = 'none'
           onChangeText={password => this.setState({ password })}
           value={this.state.password}/>
           {this.state.errorMessage &&
          <Text style={{ color: 'red' }}>
            {this.state.errorMessage}
          </Text>}
+         </KeyboardAvoidingView>
         <TouchableOpacity
           onPress={this.authenticate}
           style={loginStyles.loginButton}>
