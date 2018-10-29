@@ -36,50 +36,60 @@ class CreateAccountScreen extends React.Component {
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
 
-          {this.state.errorMessage &&
-       <Text style={{ color: 'red' }}>
-         {this.state.errorMessage}
-       </Text>}
-        <TextInput
-          placeholder="First Name"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          selectionColor="white" />
-        <TextInput
-          placeholder="Last Name"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          selectionColor="white" />
-        <TextInput
-          placeholder="Email"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          selectionColor="white"
-          autoCapitalize = 'none'
-          textContentType="emailAddress"
-          onChangeText={email => this.setState({ email })}
-          value={this.state.email} />
-        <TextInput
-          placeholder="Username"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          autoCapitalize = 'none'
-          textContentType="username"
-          selectionColor="white" />
-        <TextInput
-          placeholder="Password"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          selectionColor="white"
-          autoCapitalize = 'none'
-          textContentType="password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password} />
+        {this.state.errorMessage &&
+        <Text style={{ color: 'red' }}>
+          {this.state.errorMessage}
+        </Text>}
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            placeholder="First Name"
+            style={createAccountStyles.credentialsInput}
+            placeholderTextColor="white"
+            underlineColorAndroid="white"
+            selectionColor="white" />
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            placeholder="Last Name"
+            style={createAccountStyles.credentialsInput}
+            placeholderTextColor="white"
+            underlineColorAndroid="white"
+            selectionColor="white" />
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            placeholder="Email"
+            style={createAccountStyles.credentialsInput}
+            placeholderTextColor="white"
+            underlineColorAndroid="white"
+            selectionColor="white"
+            autoCapitalize = 'none'
+            textContentType="emailAddress"
+            onChangeText={email => this.setState({ email })}
+            value={this.state.email} />
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            placeholder="Username"
+            style={createAccountStyles.credentialsInput}
+            placeholderTextColor="white"
+            underlineColorAndroid="white"
+            autoCapitalize = 'none'
+            textContentType="username"
+            selectionColor="white" />
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            placeholder="Password"
+            style={createAccountStyles.credentialsInput}
+            placeholderTextColor="white"
+            underlineColorAndroid="white"
+            selectionColor="white"
+            autoCapitalize = 'none'
+            textContentType="password"
+            onChangeText={password => this.setState({ password })}
+            value={this.state.password} />
+        </KeyboardAvoidingView>
         <TouchableOpacity
           onPress={this.createAccount}
           style={createAccountStyles.createAccountButton}>

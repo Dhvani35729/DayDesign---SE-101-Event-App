@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAv
 import firebase from 'react-native-firebase'
 
 class LoginScreen extends React.Component {
-  state = { email: '', password: '', errorMessage: null }
+  state = { email: '', password: '', errorMessage: null };
 
   constructor(props) {
     super(props);
@@ -13,19 +13,16 @@ class LoginScreen extends React.Component {
   authenticate() {
     // this.props.nav.navigate("Calendar");
     const { email, password } = this.state
-    if(email.trim() == "" || password.trim() == ""){
-      this.setState({errorMessage: "Please fill in all fields!"})
-    }
-    else{
+    if (email.trim() == "" || password.trim() == "") {
+      this.setState({errorMessage: "Please fill in all fields!"});
+    } else {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => this.props.nav.navigate('Calendar'))
-        .catch(error => this.setState({ errorMessage: error.message }))
+        .catch(error => this.setState({ errorMessage: error.message }));
     }
-
-
-      console.log(this.state.errorMessage)
+    console.log(this.state.errorMessage);
   }
 
   render() {
