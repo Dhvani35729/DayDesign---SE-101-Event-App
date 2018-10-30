@@ -32,13 +32,16 @@ class CreateAccountScreen extends React.Component {
     return (
       <View
         style={createAccountStyles.container}>
-        <Text
-          style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
+          <Text
+            style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
 
-        {this.state.errorMessage &&
-        <Text style={{ color: 'red' }}>
-          {this.state.errorMessage}
-        </Text>}
+          {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>}
+        </KeyboardAvoidingView>
         <KeyboardAvoidingView behavior="padding" enabled
           style={createAccountStyles.credentialsInputHolder}>
           <TextInput
@@ -133,11 +136,11 @@ const createAccountStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 4,
+    paddingBottom: 2.5,
   },  
   credentialsInput: {
     fontSize: 16,
     color: "white",
-    paddingBottom: 2.5
   },
   createAccountButton: {
     alignItems: "center",
