@@ -27,4 +27,6 @@ target 'DayDesign' do
    pod 'Fabric', '~> 1.7.13'
    pod 'Crashlytics', '~> 3.10.9'
 
+  pod 'react-native-nfc-manager', :path => '../node_modules/react-native-nfc-manager'
+
 end
