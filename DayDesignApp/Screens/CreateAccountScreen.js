@@ -136,11 +136,11 @@ const createAccountStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 4,
-    paddingBottom: 2.5,
   },  
   credentialsInput: {
     fontSize: 16,
     color: "white",
+    paddingBottom: 2.5,
   },
   createAccountButton: {
     alignItems: "center",
