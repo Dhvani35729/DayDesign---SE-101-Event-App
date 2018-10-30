@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import firebase from 'react-native-firebase'
 
 class CreateAccountScreen extends React.Component {
@@ -19,6 +19,7 @@ class CreateAccountScreen extends React.Component {
       firebase.auth()
               .createUserWithEmailAndPassword(email, password)
               .then((user => {
+                user.user.sendEmailVerification();
                 this.props.nav.navigate('LoginScreen');
               }))
               .catch(error => this.setState({ errorMessage: error.message }));
@@ -30,38 +31,27 @@ class CreateAccountScreen extends React.Component {
       const { navigate } = this.props.nav;
 
     return (
-      <View
+      <KeyboardAvoidingView behavior="padding" enabled>
         style={createAccountStyles.container}>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
-          <Text
-            style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
+        <Text
+          style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
 
-          {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
-        </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
+        {this.state.errorMessage &&
+        <Text style={{ color: 'red' }}>
+          {this.state.errorMessage}
+        </Text>}
           <TextInput
             placeholder="First Name"
             style={createAccountStyles.credentialsInput}
             placeholderTextColor="white"
             underlineColorAndroid="white"
             selectionColor="white" />
-        </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Last Name"
             style={createAccountStyles.credentialsInput}
             placeholderTextColor="white"
             underlineColorAndroid="white"
             selectionColor="white" />
-        </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Email"
             style={createAccountStyles.credentialsInput}
@@ -72,9 +62,6 @@ class CreateAccountScreen extends React.Component {
             textContentType="emailAddress"
             onChangeText={email => this.setState({ email })}
             value={this.state.email} />
-        </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Username"
             style={createAccountStyles.credentialsInput}
@@ -83,9 +70,6 @@ class CreateAccountScreen extends React.Component {
             autoCapitalize = 'none'
             textContentType="username"
             selectionColor="white" />
-        </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled
-          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Password"
             style={createAccountStyles.credentialsInput}
@@ -96,7 +80,6 @@ class CreateAccountScreen extends React.Component {
             textContentType="password"
             onChangeText={password => this.setState({ password })}
             value={this.state.password} />
-        </KeyboardAvoidingView>
         <TouchableOpacity
           onPress={this.createAccount}
           style={createAccountStyles.createAccountButton}>
@@ -109,7 +92,7 @@ class CreateAccountScreen extends React.Component {
           <Text
             style={createAccountStyles.backButtonText}>Back</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -129,18 +112,16 @@ const createAccountStyles = StyleSheet.create({
     marginRight: 25,
     marginTop: 50
   },
-  credentialsInputHolder: {
+  credentialsInput: {
     flex: 1,
     marginTop: 10,
     marginBottom: 5,
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 4,
-  },  
-  credentialsInput: {
     fontSize: 16,
     color: "white",
-    paddingBottom: 2.5,
+    paddingBottom: 2.5
   },
   createAccountButton: {
     alignItems: "center",
