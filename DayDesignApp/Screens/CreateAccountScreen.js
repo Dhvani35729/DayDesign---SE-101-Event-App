@@ -39,7 +39,8 @@ class CreateAccountScreen extends React.Component {
         <Text style={{ color: 'red' }}>
           {this.state.errorMessage}
         </Text>}
-        <KeyboardAvoidingView behavior="padding" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="First Name"
             style={createAccountStyles.credentialsInput}
@@ -47,7 +48,8 @@ class CreateAccountScreen extends React.Component {
             underlineColorAndroid="white"
             selectionColor="white" />
         </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Last Name"
             style={createAccountStyles.credentialsInput}
@@ -55,7 +57,8 @@ class CreateAccountScreen extends React.Component {
             underlineColorAndroid="white"
             selectionColor="white" />
         </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Email"
             style={createAccountStyles.credentialsInput}
@@ -67,7 +70,8 @@ class CreateAccountScreen extends React.Component {
             onChangeText={email => this.setState({ email })}
             value={this.state.email} />
         </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Username"
             style={createAccountStyles.credentialsInput}
@@ -77,7 +81,8 @@ class CreateAccountScreen extends React.Component {
             textContentType="username"
             selectionColor="white" />
         </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior="padding" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled
+          style={createAccountStyles.credentialsInputHolder}>
           <TextInput
             placeholder="Password"
             style={createAccountStyles.credentialsInput}
@@ -121,8 +126,10 @@ const createAccountStyles = StyleSheet.create({
     marginRight: 25,
     marginTop: 50
   },
-  credentialsInput: {
+  credentialsInputHolder: {
     flex: 1,
+  },  
+  credentialsInput: {
     marginTop: 10,
     marginBottom: 5,
     marginLeft: 20,
