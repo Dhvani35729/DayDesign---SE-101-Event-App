@@ -128,13 +128,13 @@ const createAccountStyles = StyleSheet.create({
   },
   credentialsInputHolder: {
     flex: 1,
-  },  
-  credentialsInput: {
     marginTop: 10,
     marginBottom: 5,
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 4,
+  },  
+  credentialsInput: {
     fontSize: 16,
     color: "white",
     paddingBottom: 2.5
