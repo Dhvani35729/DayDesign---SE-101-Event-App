@@ -25,6 +25,7 @@
     "react": "16.5.0",
     "react-native": "0.57.1",
     "react-native-firebase": "^5.0.0",
+    "react-native-nfc-manager": "^1.0.1",
     "react-native-swipe-navigation": "^1.0.0-beta"
   }
 }
