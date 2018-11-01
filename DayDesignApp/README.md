@@ -21,6 +21,6 @@ Requirements:
  - react-native-emoji
  - react-native-smooth-swipe-list
 
- Credits for Todo List UI:
-    Author: Andrew Grewell <andrew.grewell@provatahealth.com>
-    Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list
+ Credits for Todo List UI:   
+    Author: Andrew Grewell <andrew.grewell@provatahealth.com>   
+    Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list    

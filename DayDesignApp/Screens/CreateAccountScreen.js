@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, BackHandler } from 'react-native';
 import firebase from 'react-native-firebase'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class CreateAccountScreen extends React.Component {
     state = { email: '', password: '', errorMessage: null }
@@ -46,7 +47,7 @@ class CreateAccountScreen extends React.Component {
       const { navigate } = this.props.nav;
 
     return (
-      <KeyboardAvoidingView behavior="padding" enabled>
+      <KeyboardAwareScrollView>
         style={createAccountStyles.container}>
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
@@ -55,46 +56,47 @@ class CreateAccountScreen extends React.Component {
         <Text style={{ color: 'red' }}>
           {this.state.errorMessage}
         </Text>}
-          <TextInput
-            placeholder="First Name"
-            style={createAccountStyles.credentialsInput}
-            placeholderTextColor="white"
-            underlineColorAndroid="white"
-            selectionColor="white" />
-          <TextInput
-            placeholder="Last Name"
-            style={createAccountStyles.credentialsInput}
-            placeholderTextColor="white"
-            underlineColorAndroid="white"
-            selectionColor="white" />
-          <TextInput
-            placeholder="Email"
-            style={createAccountStyles.credentialsInput}
-            placeholderTextColor="white"
-            underlineColorAndroid="white"
-            selectionColor="white"
-            autoCapitalize = 'none'
-            textContentType="emailAddress"
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email} />
-          <TextInput
-            placeholder="Username"
-            style={createAccountStyles.credentialsInput}
-            placeholderTextColor="white"
-            underlineColorAndroid="white"
-            autoCapitalize = 'none'
-            textContentType="username"
-            selectionColor="white" />
-          <TextInput
-            placeholder="Password"
-            style={createAccountStyles.credentialsInput}
-            placeholderTextColor="white"
-            underlineColorAndroid="white"
-            selectionColor="white"
-            autoCapitalize = 'none'
-            textContentType="password"
-            onChangeText={password => this.setState({ password })}
-            value={this.state.password} />
+        <TextInput
+          placeholder="First Name"
+          style={createAccountStyles.credentialsInput}
+          placeholderTextColor="white"
+          underlineColorAndroid="white"
+          selectionColor="white" />
+        <TextInput
+          placeholder="Last Name"
+          style={createAccountStyles.credentialsInput}
+          placeholderTextColor="white"
+          underlineColorAndroid="white"
+          selectionColor="white" />
+        <TextInput
+          placeholder="Email"
+          style={createAccountStyles.credentialsInput}
+          placeholderTextColor="white"
+          underlineColorAndroid="white"
+          selectionColor="white"
+          autoCapitalize = 'none'
+          textContentType="emailAddress"
+          onChangeText={email => this.setState({ email })}
+          value={this.state.email} />
+        <TextInput
+          placeholder="Username"
+          style={createAccountStyles.credentialsInput}
+          placeholderTextColor="white"
+          underlineColorAndroid="white"
+          autoCapitalize = 'none'
+          textContentType="username"
+          selectionColor="white" />
+        <TextInput
+          placeholder="Password"
+          style={createAccountStyles.credentialsInput}
+          placeholderTextColor="white"
+          underlineColorAndroid="white"
+          selectionColor="white"
+          autoCapitalize = 'none'
+          textContentType="password"
+          secureTextEntry={true}
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password} />
         <TouchableOpacity
           onPress={this.createAccount}
           style={createAccountStyles.createAccountButton}>
@@ -107,7 +109,7 @@ class CreateAccountScreen extends React.Component {
           <Text
             style={createAccountStyles.backButtonText}>Back</Text>
         </TouchableOpacity>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     );
   }
 }

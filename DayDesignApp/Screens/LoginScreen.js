@@ -66,6 +66,7 @@ class LoginScreen extends React.Component {
           selectionColor="white"
           textContentType="password"
           autoCapitalize = 'none'
+          secureTextEntry={true}
           onChangeText={password => this.setState({ password })}
           value={this.state.password}/>
           {this.state.errorMessage &&
