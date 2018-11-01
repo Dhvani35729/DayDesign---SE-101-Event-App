@@ -78,6 +78,7 @@ class CreateAccountScreen extends React.Component {
             selectionColor="white"
             autoCapitalize = 'none'
             textContentType="password"
+            secureTextEntry={true}
             onChangeText={password => this.setState({ password })}
             value={this.state.password} />
         <TouchableOpacity
