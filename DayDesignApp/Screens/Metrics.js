@@ -1,13 +1,22 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, BackHandler } from 'react-native'
 
 class Metrics extends React.Component {
 
   componentDidMount() {
     const { nav } = this.props
-
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
   }
+
+  componentWillUnmount() {
+       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+   }
+
+   handleBackButton() {
+      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return false;
+    }
 
   render() {
     return (

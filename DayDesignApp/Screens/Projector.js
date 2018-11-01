@@ -1,13 +1,22 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, BackHandler } from 'react-native'
 
 class Projector extends React.Component {
 
   componentDidMount() {
     const { nav } = this.props
-
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
   }
+
+  componentWillUnmount() {
+       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+   }
+
+   handleBackButton() {
+      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return false;
+    }
 
   render() {
     return (

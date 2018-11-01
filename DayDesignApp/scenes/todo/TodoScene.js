@@ -1,10 +1,11 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, BackHandler} from 'react-native';
 import times from 'lodash/times';
 
 import { Todo, TodoCollection } from '../../models';
 import { TodoSwipeList, TodoDetails } from './components'
+import { ListItem, ListItemButton } from '../../components';
 
 const INITIAL_TODO_COUNT = 10;
 const TITLES = ['Sleep', 'Write Code', 'Eat'];
@@ -81,11 +82,20 @@ const TodoScene = createReactClass({
       });
     },
 
+    componentWillUnmount() {
+         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+     },
+
+     handleBackButton() {
+        //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+          return false;
+      },
+
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.header}>
-                    Swipe List Example
+                    Tasks
                 </Text>
                 {this.renderActiveView()}
             </View>
@@ -100,19 +110,20 @@ const TodoScene = createReactClass({
             <TodoSwipeList ref={this.setSwipeListRef}
                            todos={this.state.todos}
                            addTodo={this.addTodo}
+                           nav={this.props.nav}
                            archiveTodo={this.archiveTodo}
                            toggleTodoComplete={this.toggleTodoComplete} />
         );
     }
 });
-
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 0,
+        top: 30,
         right: 0,
         bottom: 0,
         left: 0,
+        flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start'

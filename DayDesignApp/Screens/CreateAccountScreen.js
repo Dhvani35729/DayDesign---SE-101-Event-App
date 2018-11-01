@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, BackHandler } from 'react-native';
 import firebase from 'react-native-firebase'
 
 class CreateAccountScreen extends React.Component {
@@ -9,6 +9,21 @@ class CreateAccountScreen extends React.Component {
     super();
     this.createAccount = this.createAccount.bind(this);
   }
+
+  componentDidMount() {
+    const { nav } = this.props
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
+  }
+
+  componentWillUnmount() {
+       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+   }
+
+   handleBackButton() {
+      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return false;
+    }
 
   createAccount() {
     //Add account to Firebase through this method

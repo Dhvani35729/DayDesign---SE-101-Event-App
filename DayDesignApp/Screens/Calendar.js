@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity,  BackHandler } from 'react-native'
 import firebase from 'react-native-firebase'
 
 class Calendar extends React.Component {
@@ -8,9 +8,19 @@ class Calendar extends React.Component {
   componentDidMount() {
     const { nav } = this.props
     const { currentUser } = firebase.auth()
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
     this.setState({ currentUser })
   }
+
+  componentWillUnmount() {
+       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+   }
+
+   handleBackButton() {
+      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return false;
+    }
 
   logout(){
     firebase.auth().signOut().then(function() {

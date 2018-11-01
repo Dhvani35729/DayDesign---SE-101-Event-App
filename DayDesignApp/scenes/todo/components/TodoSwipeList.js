@@ -19,6 +19,8 @@ import ProgressListItem from '../../../components/list/ProgressListItem';
   Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list
 */
 
+// Modified by Dhvani Patel
+
 const TodoSwipeList = createReactClass({
 
     propTypes: {
@@ -81,6 +83,10 @@ const TodoSwipeList = createReactClass({
     render() {
         return (
             <View style={styles.swipeListContainer}>
+            <ListItem style={styles.backButton}
+                      title="Back"
+                      textStyle={styles.backButtonText}
+                      onPress={() => this.props.nav.navigate("Calendar")} />
                 {this.renderAddButton()}
                 <SwipeList ref={this.setSwipeListRef}
                            rowData={this.rowData}
@@ -136,6 +142,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     addButtonText: {
+
+    },
+    backButton: {
+        padding: 15,
+        backgroundColor: '#FFBA89',
+        alignItems: 'center'
+    },
+    backButtonText: {
 
     },
     row: {
