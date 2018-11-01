@@ -1,0 +1,4 @@
+The code in this src/ folder is by:
+
+Author: Andrew Grewell <andrew.grewell@provatahealth.com>
+Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list

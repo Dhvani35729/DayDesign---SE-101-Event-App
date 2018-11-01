@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "babel-jest": "23.6.0",
-    "fs-extra": "^6.0.1",
-    "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.48.0",
-    "react-test-renderer": "16.5.0",
-    "replace-in-file": "^3.4.0"
+    "@babel/runtime": "7.0.0",
+    "babel-jest": "^22.1.0",
+    "babel-preset-react-native": "^4.0.0",
+    "react-test-renderer": "^16.2.0",
+    "schedule": "^0.4.0"
   },
   "scripts": {
     "android": "react-native run-android",
@@ -26,6 +25,13 @@
     "react-native": "0.57.1",
     "react-native-firebase": "^5.0.0",
     "react-native-nfc-manager": "^1.0.1",
-    "react-native-swipe-navigation": "^1.0.0-beta"
+    "react-native-swipe-navigation": "^1.0.0-beta",
+    "create-react-class": "^15.6.3",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0",
+    "react-addons-shallow-compare": "^15.6.2",
+    "immutable": "^3.8.2",
+    "react-native-emoji": "^1.2.0",
+    "react-native-smooth-swipe-list": "1.4.6"
   }
 }

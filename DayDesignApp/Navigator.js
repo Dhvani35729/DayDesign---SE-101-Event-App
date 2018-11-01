@@ -9,6 +9,7 @@ import Todo from './Screens/Todo'
 import Automate from './Screens/Automate'
 import Profile from './Screens/Profile'
 import Loading from './Screens/Loading'
+import { TodoScene } from './scenes';
 
 const Navigator = SwipeNavigator({
 
@@ -32,7 +33,7 @@ const Navigator = SwipeNavigator({
     left: 'Feed',
     right: 'Metrics',
     top: 'Projector',
-    bottom: 'Todo',
+    bottom: 'TodoScene',
   },
 
   Feed: {
@@ -50,10 +51,9 @@ const Navigator = SwipeNavigator({
     type: 'place',
   },
 
-  Todo: {
-    screen: Todo,
-    right: 'Automate',
-    type: 'over'
+  TodoScene: {
+    screen: TodoScene,
+    type: 'over',
   },
 
   Automate: {
