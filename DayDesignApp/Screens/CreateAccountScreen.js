@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, BackHandler } from 'react-native';
-import firebase from 'react-native-firebase'
+import firebase from 'react-native-firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class CreateAccountScreen extends React.Component {
+
     state = { email: '', password: '', errorMessage: null }
 
   constructor(props) {
@@ -47,7 +48,7 @@ class CreateAccountScreen extends React.Component {
       const { navigate } = this.props.nav;
 
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
         style={createAccountStyles.container}>
         <Text
           style={createAccountStyles.title}>{ "We'll just need some information, please!" }</Text>
@@ -117,7 +118,7 @@ class CreateAccountScreen extends React.Component {
 const createAccountStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+  // justifyContent: "center",
     backgroundColor: "#0e9aa7"
   },
   title: {
