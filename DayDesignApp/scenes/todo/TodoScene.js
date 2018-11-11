@@ -1,28 +1,22 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
-import { View, Text, StyleSheet, TouchableHighlight, BackHandler} from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, BackHandler, TextInput} from 'react-native';
 import times from 'lodash/times';
 
 import { Todo, TodoCollection } from '../../models';
 import { TodoSwipeList, TodoDetails } from './components'
 import { ListItem, ListItemButton } from '../../components';
 
-const INITIAL_TODO_COUNT = 10;
-const TITLES = ['Sleep', 'Write Code', 'Eat'];
-const INITIAL_TODOS = times(INITIAL_TODO_COUNT, (i) => {
-    return {
-        id: i + 1,
-        title: TITLES[(i + 1) % 3],
-        completed: false,
-        archived: false,
-        progress: Math.random()
-    };
-});
+import firebase from 'react-native-firebase';
 
 /*
   Author: Andrew Grewell <andrew.grewell@provatahealth.com>
   Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list
 */
+
+// With edits by Dhvani Patel
+
+states = { currentUser: null };
 
 const TodoScene = createReactClass({
 
@@ -30,12 +24,10 @@ const TodoScene = createReactClass({
         // using this component's state as a store for simplicity sake
         return {
             activeTodo: null,
-            todoCount: INITIAL_TODO_COUNT,
-            todos: new TodoCollection(INITIAL_TODOS)
+            todoCount: myList.length,
+            todos: new TodoCollection(myList)
         };
     },
-
-
 
     archiveTodo(todo) {
         let updatedTodo = todo.setArchived(true);
@@ -45,24 +37,36 @@ const TodoScene = createReactClass({
     },
 
     toggleTodoComplete(todo) {
-        let updatedTodo = todo.setComplete(!todo.isComplete());
+      //  let updatedTodo = todo.setComplete(!todo.isComplete());
+        let updatedTodo = todo.setArchived(true);
         this.setState({
             todos: this.state.todos.putById(updatedTodo.getId(), updatedTodo)
         });
-        this.tryCloseSwipeRow();
+        firebase.database().ref(states.uid + '/todo' + '/' + todo.getId()).remove();
+        firebase.database().ref(states.uid + '/len_list').set(this.state.todoCount-1);
+        // this.tryCloseSwipeRow();
     },
 
-    addTodo() {
+    addTodo(t_name) {
         let count = this.state.todoCount + 1;
-        this.setState({
-            todoCount: count,
-            todos: this.state.todos.unshift({
-                id: count,
-                title: 'A New Todo',
-                complete: false,
-                archived: false
-            })
-        });
+        let task_name = t_name;
+
+         this.setState({
+             todoCount: count,
+             todos: this.state.todos.unshift({
+                 id: count,
+                 title: task_name,
+                 complete: false,
+                 archived: false,
+                progress: Math.random()
+             })
+         });
+
+         firebase.database().ref(states.uid + '/todo' + '/' + count).set({
+           name: task_name
+         });
+         firebase.database().ref(states.uid + '/len_list').set(count);
+
         this.tryCloseSwipeRow();
     },
 
@@ -76,6 +80,9 @@ const TodoScene = createReactClass({
 
     componentDidMount() {
       const { nav } = this.props
+      const { currentUser } = firebase.auth();
+      states = currentUser;
+       this.state = {text: ''};
 
       nav.onNavigateShouldAllow(() => {
       return false; // you can do it using component's state for example return this.state.hold
@@ -97,6 +104,14 @@ const TodoScene = createReactClass({
                 <Text style={styles.header}>
                     Tasks
                 </Text>
+                <TextInput
+                  placeholder="task name"
+                  placeholderTextColor="black"
+                  underlineColorAndroid="black"
+                  selectionColor="white"
+                  autoCapitalize = 'none'
+                  onChangeText={(text) => this.setState({text})}
+                  value={this.state.text}/>
                 {this.renderActiveView()}
             </View>
         );
@@ -109,7 +124,7 @@ const TodoScene = createReactClass({
         return (
             <TodoSwipeList ref={this.setSwipeListRef}
                            todos={this.state.todos}
-                           addTodo={this.addTodo}
+                           addTodo={() => this.addTodo(this.state.text)}
                            nav={this.props.nav}
                            archiveTodo={this.archiveTodo}
                            toggleTodoComplete={this.toggleTodoComplete} />
@@ -126,7 +141,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        backgroundColor: "white"
     },
     header: {
         fontSize: 18,

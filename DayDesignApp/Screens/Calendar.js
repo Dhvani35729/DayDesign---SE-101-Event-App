@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, TouchableOpacity,  BackHandler } from 'react-native'
 import firebase from 'react-native-firebase'
 
+myList = []
+
 class Calendar extends React.Component {
     state = { currentUser: null }
 
@@ -9,6 +11,37 @@ class Calendar extends React.Component {
     const { nav } = this.props
     const { currentUser } = firebase.auth()
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
+    firebase.database().ref(currentUser.uid + '/len_list').once('value').then(function(snapshot) {
+
+     myList.length = snapshot.val();
+
+    var userListFire = firebase.database().ref(currentUser.uid + '/todo');
+    userListFire.on('value', function(snapshot) {
+
+         var keys = Object.keys(snapshot.val());
+         var counter = 0;
+
+         for(var i = 0; i < keys.length; i++){
+
+           if(snapshot.val()[keys[i]] != null){
+
+             myList[counter] = {
+                 id: counter+1,
+                 title: String(snapshot.val()[keys[i]].name),
+                 complete: false,
+                 archived: false,
+                 progress: Math.random()
+             };
+
+             counter++;
+           }
+
+         }
+
+     });
+
+ });
 
     this.setState({ currentUser })
   }
