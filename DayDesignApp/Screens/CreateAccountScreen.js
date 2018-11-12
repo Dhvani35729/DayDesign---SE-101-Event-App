@@ -36,8 +36,16 @@ class CreateAccountScreen extends React.Component {
       firebase.auth()
               .createUserWithEmailAndPassword(email, password)
               .then((user => {
+                firebase.database().ref(user.user.uid + '/len_list').set(0);
+                firebase.database().ref(user.user.uid + '/total_todos').set(0);
                 user.user.sendEmailVerification();
-                this.props.nav.navigate('LoginScreen');
+                firebase.auth().signOut().then(function() {
+                  // Sign-out successful.
+                    this.props.nav.navigate('LoginScreen');
+                }, function(error) {
+                  // An error happened.
+                });
+
               }))
               .catch(error => this.setState({ errorMessage: error.message }));
       }

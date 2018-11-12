@@ -2,7 +2,8 @@ import React from 'react'
 import { View, Text, TouchableOpacity,  BackHandler } from 'react-native'
 import firebase from 'react-native-firebase'
 
-myList = []
+myList = [];
+totalTodos = 0;
 
 class Calendar extends React.Component {
     state = { currentUser: null }
@@ -12,12 +13,18 @@ class Calendar extends React.Component {
     const { currentUser } = firebase.auth()
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
+    firebase.database().ref(currentUser.uid + '/total_todos').once('value').then(function(snapshot) {
+      totalTodos = snapshot.val();
+      // console.log(snapshot.val());
+      // console.log("what");
+    });
+
     firebase.database().ref(currentUser.uid + '/len_list').once('value').then(function(snapshot) {
 
      myList.length = snapshot.val();
+     if(myList.length != 0){
 
-    var userListFire = firebase.database().ref(currentUser.uid + '/todo');
-    userListFire.on('value', function(snapshot) {
+    firebase.database().ref(currentUser.uid + '/todo').once('value').then(function(snapshot) {
 
          var keys = Object.keys(snapshot.val());
          var counter = 0;
@@ -27,7 +34,7 @@ class Calendar extends React.Component {
            if(snapshot.val()[keys[i]] != null){
 
              myList[counter] = {
-                 id: counter+1,
+                 id: keys[i],
                  title: String(snapshot.val()[keys[i]].name),
                  complete: false,
                  archived: false,
@@ -40,6 +47,8 @@ class Calendar extends React.Component {
          }
 
      });
+
+        }
 
  });
 

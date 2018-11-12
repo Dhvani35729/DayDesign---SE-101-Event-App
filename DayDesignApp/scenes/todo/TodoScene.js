@@ -17,11 +17,15 @@ import firebase from 'react-native-firebase';
 // With edits by Dhvani Patel
 
 states = { currentUser: null };
+totalHere = 0;
 
 const TodoScene = createReactClass({
 
     getInitialState() {
         // using this component's state as a store for simplicity sake
+        totalHere = totalTodos;
+        console.log(totalTodos);
+        console.log('come on');
         return {
             activeTodo: null,
             todoCount: myList.length,
@@ -42,30 +46,58 @@ const TodoScene = createReactClass({
         this.setState({
             todos: this.state.todos.putById(updatedTodo.getId(), updatedTodo)
         });
-        firebase.database().ref(states.uid + '/todo' + '/' + todo.getId()).remove();
-        firebase.database().ref(states.uid + '/len_list').set(this.state.todoCount-1);
+        // this.state.todoCount--;
+        firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshot) {
+
+          firebase.database().ref(states.uid + '/len_list').set(snapshot.val()-1);
+          console.log(todo.getId());
+          firebase.database().ref(states.uid + '/todo' + '/' + todo.getId()).remove();
+            });
+
+
+        // if(this.state.todoCount == 1){
+        //
+        // }
+
         // this.tryCloseSwipeRow();
     },
 
     addTodo(t_name) {
-        let count = this.state.todoCount + 1;
-        let task_name = t_name;
 
-         this.setState({
-             todoCount: count,
-             todos: this.state.todos.unshift({
-                 id: count,
-                 title: task_name,
-                 complete: false,
-                 archived: false,
-                progress: Math.random()
-             })
-         });
+      // console.log(totalHere + "-");
+      let count = totalTodos+1;
+      let task_name = t_name;
+      console.log("Count + " + count);
+       this.setState({
+           todoCount: this.state.todoCount+1,
+           todos: this.state.todos.unshift({
+               id: count,
+               title: task_name,
+               complete: false,
+               archived: false,
+              progress: Math.random()
+           })
+       });
 
-         firebase.database().ref(states.uid + '/todo' + '/' + count).set({
-           name: task_name
-         });
-         firebase.database().ref(states.uid + '/len_list').set(count);
+         firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshot) {
+
+           firebase.database().ref(states.uid + '/len_list').set(snapshot.val()+1);
+           //console.log(this.state.todoCount-1);
+            firebase.database().ref(states.uid + '/total_todos').once('value').then(function(snapshot) {
+
+
+           firebase.database().ref(states.uid + '/todo' + '/' + (snapshot.val()+1)).set({
+             name: task_name
+           });
+              firebase.database().ref(states.uid + '/total_todos').set(snapshot.val()+1);
+              totalTodos++;
+              });
+
+
+
+          });
+
+
 
         this.tryCloseSwipeRow();
     },
