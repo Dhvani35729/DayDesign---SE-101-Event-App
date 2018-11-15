@@ -11,39 +11,35 @@ class Loading extends React.Component {
       BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     firebase.auth().onAuthStateChanged(user => {
     if(user){
-        console.log("logged in");
+      console.log("logged in");
       firebase.database().ref(user.uid + '/total_todos').once('value').then(function(snapshot) {
         totalTodos = snapshot.val();
         // console.log(snapshot.val());
       });
 
       firebase.database().ref(user.uid + '/len_list').once('value').then(function(snapshot) {
+        myList.length = snapshot.val();
+        if (myList.length != 0) {
+          firebase.database().ref(user.uid + '/todo').once('value').then(function(snapshot) {
 
-       myList.length = snapshot.val();
-       if(myList.length != 0){
+            var keys = Object.keys(snapshot.val());
+            var counter = 0;
 
-      firebase.database().ref(user.uid + '/todo').once('value').then(function(snapshot) {
+            for(var i = 0; i < keys.length; i++){
 
-           var keys = Object.keys(snapshot.val());
-           var counter = 0;
+              if(snapshot.val()[keys[i]] != null){
 
-           for(var i = 0; i < keys.length; i++){
+                myList[counter] = {
+                  id: keys[i],
+                  title: String(snapshot.val()[keys[i]].name),
+                  complete: false,
+                  archived: false,
+                  progress: Math.random()
+                };
+                counter++;
+              }
 
-             if(snapshot.val()[keys[i]] != null){
-
-               myList[counter] = {
-                   id: keys[i],
-                   title: String(snapshot.val()[keys[i]].name),
-                   complete: false,
-                   archived: false,
-                   progress: Math.random()
-               };
-
-               counter++;
-             }
-
-           }
-
+            }
                   console.log("here in");
                   // put here
                   Navigation.setRoot({

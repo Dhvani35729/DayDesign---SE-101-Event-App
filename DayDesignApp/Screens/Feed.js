@@ -4,17 +4,46 @@ import firebase from 'react-native-firebase';
 
 class Feed extends React.Component {
 
-  componentDidMount() {
-  BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-  }
-  componentWillUnmount() {
-       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-   }
+  state = { currentUser: null };
 
-   handleBackButton() {
-      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
-        return false;
-    }
+  constructor(props) {
+    super(props);
+    this.addAssignments = this.addAssignments.bind(this);
+    const { currentUser } = firebase.auth();
+    this.setState({ currentUser });
+
+    firebase.database().ref("University of Waterloo Courses/Software Engineering/MATH115/assignments").once("value").then(function(snapshot) {
+      let assignments = Object.keys(snapshot.val());
+
+      for (let i = 0; i < assignments.length; i++) {
+        firebase.database().ref(currentUser.uid + "/todo").set({
+          name: assignments[i],
+        });
+      }
+      
+      /*firebase.database().ref(currentUser.uid + "/todo").once("value").then(function(snapshot) {
+        let todos = Object.keys(snapshot.val());
+      });*/
+    });
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return false;
+  }
+
+  addAssignments() {
+
+  }
+  
 
   render() {
     return (
