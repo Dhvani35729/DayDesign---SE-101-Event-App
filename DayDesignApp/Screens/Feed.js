@@ -30,37 +30,26 @@ class Feed extends React.Component {
   addAssignments() {
     cUid = this.state.currentUser.uid;
 
-    firebase.database().ref(cUid + '/total_todos').once('value').then(function(snapshot) {
-      totalTodos = snapshot.val();
-      // console.log(snapshot.val());
+    firebase.database().ref(cUid + '/total_todos').once('value').then(function(snapshotOfTotalTodos) {
+      totalTodos = snapshotOfTotalTodos.val();
 
-      firebase.database().ref(cUid + '/len_list').once('value').then(function(snapshot) {
-        lenInitial = snapshot.val();
+      firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshotOfLenInitial) {
+        lenInitial = snapshotOfLenInitial.val();
 
-
-
-    firebase.database().ref("University of Waterloo Courses/Software Engineering/MATH115/assignments").once("value").then(function(snapshot) {
-      let assignments = Object.keys(snapshot.val());
-      console.log(assignments);
-      for (let i = 0; i < assignments.length; i++) {
-          totalTodos++;
-        firebase.database().ref(cUid + "/todo/" + (totalTodos)).set({
-          name: "MATH 115: Assignment #" + assignments[i].substr(1),
+        firebase.database().ref("University of Waterloo Courses/Software Engineering/MATH115/assignments").once("value").then(function(snapshotOfMATH115Assignments) {
+          let assignments = Object.keys(snapshotOfMATH115Assignments.val());
+          for (let i = 0; i < assignments.length; i++) {
+            totalTodos++;
+            firebase.database().ref(cUid + "/todo/" + (totalTodos)).set({
+              name: "MATH 115: Assignment #" + assignments[i].substr(1),
+            });
+          }
+          firebase.database().ref(cUid + '/total_todos').set(totalTodos);
+          firebase.database().ref(cUid + '/len_list').set(lenInitial+assignments.length);
         });
-      }
-      firebase.database().ref(cUid + '/total_todos').set(totalTodos);
-      firebase.database().ref(cUid + '/len_list').set(lenInitial+assignments.length);
-
-      /*firebase.database().ref(currentUser.uid + "/todo").once("value").then(function(snapshot) {
-        let todos = Object.keys(snapshot.val());
-      });*/
+      });
     });
-
-        });
-
-        });
   }
-
 
   render() {
     return (
