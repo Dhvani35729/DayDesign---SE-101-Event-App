@@ -131,6 +131,12 @@ const TodoScene = createReactClass({
 
           //  this.getInitialState();
 
+   //    Navigation.mergeOptions(this.props.componentId, {
+   //   bottomTabs: {
+   //     currentTabId: 'TAB2_ID'
+   //   }
+   // });
+
             Navigation.setRoot({
           root: {
             stack: {
@@ -138,7 +144,7 @@ const TodoScene = createReactClass({
               children: [
                 {
                   component: {
-                    name: 'Initializing',
+                    name: 'Initializing'
                   }
                 }
             ],

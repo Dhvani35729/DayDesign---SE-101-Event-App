@@ -40,13 +40,37 @@ class Loading extends React.Component {
               }
 
             }
-                  console.log("here in");
+
+                  if(this.props){
+                        console.log("REFRESHED!");
+                  }
                   // put here
                   Navigation.setRoot({
                       root: {
                         bottomTabs: {
                           id: 'BottomTabs',
                           children: [
+                            {
+                              stack: {
+                                id: 'TAB2_ID',
+                                children: [
+                                  {
+                                    component: {
+                                      name: 'Feed',
+                                      passProps: {
+                                        text: 'This is tab 2'
+                                      }
+                                    }
+                                  }
+                                ],
+                                options: {
+                                  bottomTab: {
+                                    text: 'Feed',
+                                    icon: require('../images/two.png')
+                                  }
+                                }
+                              }
+                            },
                             {
                               stack: {
                                 id: 'TAB1_ID',
@@ -84,25 +108,9 @@ class Loading extends React.Component {
                             },
                             {
                               stack: {
+                                id: 'TAB3_ID',
                                 children: [
                                   {
-                                    component: {
-                                      name: 'Feed',
-                                      passProps: {
-                                        text: 'This is tab 2'
-                                      }
-                                    }
-                                  }
-                                ],
-                                options: {
-                                  bottomTab: {
-                                    text: 'Feed',
-                                    icon: require('../images/two.png')
-                                  }
-                                }
-                              }
-                            },
-                            {
                               component: {
                                 name: 'TodoScene',
                                 passProps: {
@@ -110,18 +118,22 @@ class Loading extends React.Component {
                                   todoList: myList,
                                   count: totalTodos,
                                   myFunction: () => 'Hello from a function!'
-                                },
-                                options: {
-                                  topBar: {
-                                    visible: true,
-                                    animate: false
-                                  },
-                                  bottomTab: {
-                                    text: 'Todo',
-                                    icon: require('../images/one.png'),
-                                    selectedIcon: require('../images/one.png')
-                                  }
                                 }
+                              }
+                            }
+                              ],
+                              options: {
+                                topBar: {
+                                  visible: false,
+                                  animate: false
+                                },
+                                bottomTab: {
+                                  text: 'Todo',
+                                  icon: require('../images/one.png'),
+                                  selectedIcon: require('../images/one.png')
+
+                                }
+                              }
                               }
                             }
                           ],

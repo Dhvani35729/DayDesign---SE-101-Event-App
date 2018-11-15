@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image, BackHandler } from 'react-native'
 import firebase from 'react-native-firebase';
+import { Navigation } from 'react-native-navigation'
 
 class Feed extends React.Component {
 
@@ -16,6 +17,14 @@ class Feed extends React.Component {
     console.log(currentUser);
     this.setState({ currentUser });
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
+    Navigation.mergeOptions(this.props.componentId, {
+     bottomTabs: {
+       currentTabId: 'TAB1_ID'
+     }
+   });
+
+
   }
 
   componentWillUnmount() {
