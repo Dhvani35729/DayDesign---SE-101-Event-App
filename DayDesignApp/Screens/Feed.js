@@ -34,7 +34,7 @@ class Feed extends React.Component {
       totalTodos = snapshot.val();
       // console.log(snapshot.val());
 
-      firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshot) {
+      firebase.database().ref(cUid + '/len_list').once('value').then(function(snapshot) {
         lenInitial = snapshot.val();
 
 
@@ -49,7 +49,7 @@ class Feed extends React.Component {
         });
       }
       firebase.database().ref(cUid + '/total_todos').set(totalTodos);
-      firebase.database().ref(states.uid + '/len_list').set(lenInitial+assignments.length);
+      firebase.database().ref(cUid + '/len_list').set(lenInitial+assignments.length);
 
       /*firebase.database().ref(currentUser.uid + "/todo").once("value").then(function(snapshot) {
         let todos = Object.keys(snapshot.val());

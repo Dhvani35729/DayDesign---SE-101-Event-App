@@ -137,7 +137,6 @@ class Loading extends React.Component {
           });
           }
           else{
-
             console.log("here in");
             // put here
             Navigation.setRoot({

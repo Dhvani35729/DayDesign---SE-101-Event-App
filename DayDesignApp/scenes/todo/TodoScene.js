@@ -29,13 +29,21 @@ const TodoScene = createReactClass({
         // console.log(this.props.count);
         console.log("here");
         console.log(totalHere);
-
+        if(this.props.todoList){
+          return {
+              text: '',
+              activeTodo: null,
+              todoCount: this.props.todoList.length,
+              todos: new TodoCollection(this.props.todoList)
+          };
+        }
         return {
             text: '',
             activeTodo: null,
-            todoCount: this.props.todoList.length,
+            todoCount: 0,
             todos: new TodoCollection(this.props.todoList)
         };
+
     },
 
     archiveTodo(todo) {
