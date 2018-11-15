@@ -9,25 +9,12 @@ class Feed extends React.Component {
   constructor(props) {
     super(props);
     this.addAssignments = this.addAssignments.bind(this);
-    const { currentUser } = firebase.auth();
-    this.setState({ currentUser });
-
-    firebase.database().ref("University of Waterloo Courses/Software Engineering/MATH115/assignments").once("value").then(function(snapshot) {
-      let assignments = Object.keys(snapshot.val());
-
-      for (let i = 0; i < assignments.length; i++) {
-        firebase.database().ref(currentUser.uid + "/todo").set({
-          name: assignments[i],
-        });
-      }
-      
-      /*firebase.database().ref(currentUser.uid + "/todo").once("value").then(function(snapshot) {
-        let todos = Object.keys(snapshot.val());
-      });*/
-    });
   }
 
   componentDidMount() {
+    const { currentUser } = firebase.auth();
+    console.log(currentUser);
+    this.setState({ currentUser });
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -41,9 +28,39 @@ class Feed extends React.Component {
   }
 
   addAssignments() {
+    cUid = this.state.currentUser.uid;
 
+    firebase.database().ref(cUid + '/total_todos').once('value').then(function(snapshot) {
+      totalTodos = snapshot.val();
+      // console.log(snapshot.val());
+
+      firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshot) {
+        lenInitial = snapshot.val();
+
+
+
+    firebase.database().ref("University of Waterloo Courses/Software Engineering/MATH115/assignments").once("value").then(function(snapshot) {
+      let assignments = Object.keys(snapshot.val());
+      console.log(assignments);
+      for (let i = 0; i < assignments.length; i++) {
+          totalTodos++;
+        firebase.database().ref(cUid + "/todo/" + (totalTodos)).set({
+          name: "MATH 115: Assignment #" + assignments[i].substr(1),
+        });
+      }
+      firebase.database().ref(cUid + '/total_todos').set(totalTodos);
+      firebase.database().ref(states.uid + '/len_list').set(lenInitial+assignments.length);
+
+      /*firebase.database().ref(currentUser.uid + "/todo").once("value").then(function(snapshot) {
+        let todos = Object.keys(snapshot.val());
+      });*/
+    });
+
+        });
+
+        });
   }
-  
+
 
   render() {
     return (
@@ -51,11 +68,7 @@ class Feed extends React.Component {
         <Text style={styles.title}>Feed</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => (  firebase.auth().signOut().then(function() {
-              // Sign-out successful.
-            }, function(error) {
-              // An error happened.
-            }))}>
+          onPress={this.addAssignments}>
           <Text
             style={styles.buttonText}>Institution</Text>
           <Image //Sort of works but not as we'd like it to
