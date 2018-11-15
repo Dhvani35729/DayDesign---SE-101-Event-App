@@ -9,6 +9,8 @@ import { ListItem, ListItemButton } from '../../components';
 
 import firebase from 'react-native-firebase';
 
+import { Navigation } from 'react-native-navigation'
+
 /*
   Author: Andrew Grewell <andrew.grewell@provatahealth.com>
   Link: https://github.com/ProvataHealth/react-native-smooth-swipe-list
@@ -25,6 +27,9 @@ const TodoScene = createReactClass({
         // using this component's state as a store for simplicity sake
         totalHere = this.props.count;
         // console.log(this.props.count);
+        console.log("here");
+        console.log(totalHere);
+
         return {
             text: '',
             activeTodo: null,
@@ -101,6 +106,38 @@ const TodoScene = createReactClass({
     componentDidMount() {
       const { currentUser } = firebase.auth();
        states = currentUser;
+
+    },
+    componentDidUpdate(prevProps) {
+        console.log('wow outside');
+  if (this.props !== prevProps) {
+    console.log('wow');
+
+  }
+
+  },
+
+    refresh(){
+
+          // REFRESH HERE
+
+          //  this.getInitialState();
+
+            Navigation.setRoot({
+          root: {
+            stack: {
+              id: 'App',
+              children: [
+                {
+                  component: {
+                    name: 'Initializing',
+                  }
+                }
+            ],
+            }
+          }
+        })
+
     },
 
     componentWillUnmount() {
@@ -140,6 +177,7 @@ const TodoScene = createReactClass({
                            todos={this.state.todos}
                            addTodo={() => this.addTodo(this.state.text)}
                            archiveTodo={this.archiveTodo}
+                           refresh={this.refresh}
                            toggleTodoComplete={this.toggleTodoComplete} />
         );
     }
