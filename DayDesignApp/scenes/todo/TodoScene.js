@@ -23,13 +23,13 @@ const TodoScene = createReactClass({
 
     getInitialState() {
         // using this component's state as a store for simplicity sake
-        totalHere = totalTodos;
-        console.log(totalTodos);
-        console.log('come on');
+        totalHere = this.props.count;
+        // console.log(this.props.count);
         return {
+            text: '',
             activeTodo: null,
-            todoCount: myList.length,
-            todos: new TodoCollection(myList)
+            todoCount: this.props.todoList.length,
+            todos: new TodoCollection(this.props.todoList)
         };
     },
 
@@ -43,31 +43,23 @@ const TodoScene = createReactClass({
     toggleTodoComplete(todo) {
       //  let updatedTodo = todo.setComplete(!todo.isComplete());
         let updatedTodo = todo.setArchived(true);
+        console.log(this.state);
         this.setState({
             todos: this.state.todos.putById(updatedTodo.getId(), updatedTodo)
         });
-        // this.state.todoCount--;
         firebase.database().ref(states.uid + '/len_list').once('value').then(function(snapshot) {
 
           firebase.database().ref(states.uid + '/len_list').set(snapshot.val()-1);
           console.log(todo.getId());
           firebase.database().ref(states.uid + '/todo' + '/' + todo.getId()).remove();
             });
-
-
-        // if(this.state.todoCount == 1){
-        //
-        // }
-
-        // this.tryCloseSwipeRow();
     },
 
     addTodo(t_name) {
-
-      // console.log(totalHere + "-");
-      let count = totalTodos+1;
+      // console.log(totalHere);
+      let count = this.props.count+1;
       let task_name = t_name;
-      console.log("Count + " + count);
+      // console.log("Count + " + count);
        this.setState({
            todoCount: this.state.todoCount+1,
            todos: this.state.todos.unshift({
@@ -90,14 +82,10 @@ const TodoScene = createReactClass({
              name: task_name
            });
               firebase.database().ref(states.uid + '/total_todos').set(snapshot.val()+1);
-              totalTodos++;
+              this.props.count++;
               });
 
-
-
           });
-
-
 
         this.tryCloseSwipeRow();
     },
@@ -111,14 +99,8 @@ const TodoScene = createReactClass({
     },
 
     componentDidMount() {
-      const { nav } = this.props
       const { currentUser } = firebase.auth();
-      states = currentUser;
-       this.state = {text: ''};
-
-      nav.onNavigateShouldAllow(() => {
-      return false; // you can do it using component's state for example return this.state.hold
-      });
+       states = currentUser;
     },
 
     componentWillUnmount() {
@@ -157,7 +139,6 @@ const TodoScene = createReactClass({
             <TodoSwipeList ref={this.setSwipeListRef}
                            todos={this.state.todos}
                            addTodo={() => this.addTodo(this.state.text)}
-                           nav={this.props.nav}
                            archiveTodo={this.archiveTodo}
                            toggleTodoComplete={this.toggleTodoComplete} />
         );

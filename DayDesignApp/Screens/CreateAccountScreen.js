@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, BackHandler } from 'react-native';
 import firebase from 'react-native-firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Navigation } from 'react-native-navigation'
 
 class CreateAccountScreen extends React.Component {
 
-    state = { email: '', password: '', errorMessage: null }
+    state = { email: '', password: '', errorMessage: null, firstName: '', lastName: '' }
 
   constructor(props) {
     super();
@@ -13,9 +14,7 @@ class CreateAccountScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { nav } = this.props
       BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-
   }
 
   componentWillUnmount() {
@@ -29,8 +28,8 @@ class CreateAccountScreen extends React.Component {
 
   createAccount() {
     //Add account to Firebase through this method
-    const { email, password } = this.state
-    if(email.trim() == "" || password.trim() == "") {
+    const { email, password, firstName, lastName } = this.state
+    if(email.trim() == "" || password.trim() == "" || firstName.trim() == "" || lastName.trim() == "") {
       this.setState({errorMessage: "Please fill in all fields!"});
     } else {
       firebase.auth()
@@ -38,10 +37,24 @@ class CreateAccountScreen extends React.Component {
               .then((user => {
                 firebase.database().ref(user.user.uid + '/len_list').set(0);
                 firebase.database().ref(user.user.uid + '/total_todos').set(0);
-                user.user.sendEmailVerification();
+                firebase.database().ref(user.user.uid + '/full_name').set(firstName + ' ' + lastName);
+               user.user.sendEmailVerification();
                 firebase.auth().signOut().then(function() {
                   // Sign-out successful.
-                    this.props.nav.navigate('LoginScreen');
+                  Navigation.setRoot({
+                root: {
+                  stack: {
+                    id: 'App',
+                    children: [
+                      {
+                        component: {
+                          name: 'Login',
+                        }
+                      }
+                  ],
+                  }
+                }
+              })
                 }, function(error) {
                   // An error happened.
                 });
@@ -53,7 +66,6 @@ class CreateAccountScreen extends React.Component {
 
 
   render() {
-      const { navigate } = this.props.nav;
 
     return (
       <KeyboardAwareScrollView
@@ -70,13 +82,17 @@ class CreateAccountScreen extends React.Component {
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          selectionColor="white"
+          onChangeText={firstName => this.setState({ firstName })}
+          value={this.state.firstName} />
         <TextInput
           placeholder="Last Name"
           style={createAccountStyles.credentialsInput}
           placeholderTextColor="white"
           underlineColorAndroid="white"
-          selectionColor="white" />
+          selectionColor="white"
+          onChangeText={lastName => this.setState({ lastName })}
+          value={this.state.lastName} />
         <TextInput
           placeholder="Email"
           style={createAccountStyles.credentialsInput}
@@ -87,14 +103,6 @@ class CreateAccountScreen extends React.Component {
           textContentType="emailAddress"
           onChangeText={email => this.setState({ email })}
           value={this.state.email} />
-        <TextInput
-          placeholder="Username"
-          style={createAccountStyles.credentialsInput}
-          placeholderTextColor="white"
-          underlineColorAndroid="white"
-          autoCapitalize = 'none'
-          textContentType="username"
-          selectionColor="white" />
         <TextInput
           placeholder="Password"
           style={createAccountStyles.credentialsInput}
@@ -113,7 +121,7 @@ class CreateAccountScreen extends React.Component {
             style={createAccountStyles.createAccountButtonText}>Create Account</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate("LoginScreen")}
+          onPress={() =>   Navigation.pop(this.props.componentId)}
           style={createAccountStyles.backButton}>
           <Text
             style={createAccountStyles.backButtonText}>Back</Text>

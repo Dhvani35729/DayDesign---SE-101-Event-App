@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image, BackHandler } from 'react-native'
+import firebase from 'react-native-firebase';
 
 class Feed extends React.Component {
 
   componentDidMount() {
-    const { nav } = this.props
   BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
   componentWillUnmount() {
@@ -21,7 +21,12 @@ class Feed extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>Feed</Text>
         <TouchableOpacity
-          style={styles.button}>
+          style={styles.button}
+          onPress={() => (  firebase.auth().signOut().then(function() {
+              // Sign-out successful.
+            }, function(error) {
+              // An error happened.
+            }))}>
           <Text
             style={styles.buttonText}>Institution</Text>
           <Image //Sort of works but not as we'd like it to

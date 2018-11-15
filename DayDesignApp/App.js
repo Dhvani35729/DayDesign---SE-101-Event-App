@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Navigator from './Navigator'
 
+// Don't need this file, we keep it for possible future use
 class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navigator />
+        // <Navigator />
       </View>
     );
   }

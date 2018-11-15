@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, BackHandler } from 'react-native';
 import firebase from 'react-native-firebase'
+import {Navigation} from 'react-native-navigation';
+
+myList = [];
+totalTodos = 0;
 
 class LoginScreen extends React.Component {
   state = { email: '', password: '', errorMessage: null };
@@ -11,7 +15,6 @@ class LoginScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { nav } = this.props
       BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
   }
@@ -25,6 +28,141 @@ class LoginScreen extends React.Component {
         return false;
     }
 
+    goHome(user){
+
+      firebase.database().ref(user.uid + '/total_todos').once('value').then(function(snapshot) {
+        totalTodos = snapshot.val();
+        // console.log(snapshot.val());
+      });
+
+      firebase.database().ref(user.uid + '/len_list').once('value').then(function(snapshot) {
+
+       myList.length = snapshot.val();
+       if(myList.length != 0){
+
+      firebase.database().ref(user.uid + '/todo').once('value').then(function(snapshot) {
+
+           var keys = Object.keys(snapshot.val());
+           var counter = 0;
+
+           for(var i = 0; i < keys.length; i++){
+
+             if(snapshot.val()[keys[i]] != null){
+
+               myList[counter] = {
+                   id: keys[i],
+                   title: String(snapshot.val()[keys[i]].name),
+                   complete: false,
+                   archived: false,
+                   progress: Math.random()
+               };
+
+               counter++;
+             }
+
+           }
+
+           // put here
+           Navigation.setRoot({
+               root: {
+                 bottomTabs: {
+                   id: 'BottomTabs',
+                   children: [
+                     {
+                       stack: {
+                         id: 'TAB1_ID',
+                         children: [
+                           {
+                             component: {
+                               name: 'Calendar',
+                               passProps: {
+                                 text: 'This is tab 1',
+                                 myFunction: () => 'Hello from a function!'
+                               },
+                               options: {
+                                 topBar: {
+                                   visible: true,
+                                   animate: false,
+                                   title: {
+                                     text: 'Calendar'
+                                   }
+                                 },
+                                 bottomTab: {
+                                   text: 'Tab 1',
+                                   icon: require('../images/one.png'),
+                                   selectedIcon: require('../images/one.png')
+                                 }
+                               }
+                             }
+                           }
+                         ],
+                         options: {
+                           topBar: {
+                             visible: false
+                           }
+                         }
+                       }
+                     },
+                     {
+                       stack: {
+                         children: [
+                           {
+                             component: {
+                               name: 'Feed',
+                               passProps: {
+                                 text: 'This is tab 2'
+                               }
+                             }
+                           }
+                         ],
+                         options: {
+                           bottomTab: {
+                             text: 'Feed',
+                             icon: require('../images/two.png')
+                           }
+                         }
+                       }
+                     },
+                     {
+                       component: {
+                         name: 'TodoScene',
+                         passProps: {
+                           text: 'This is tab 3',
+                           todos: myList,
+                           count: totalTodos,
+                           myFunction: () => 'Hello from a function!'
+                         },
+                         options: {
+                           topBar: {
+                             visible: true,
+                             animate: false
+                           },
+                           bottomTab: {
+                             text: 'Todo',
+                             icon: require('../images/one.png'),
+                             selectedIcon: require('../images/one.png')
+                           }
+                         }
+                       }
+                     }
+                   ],
+                   options: {
+                     bottomTabs: {
+                       titleDisplayMode: 'alwaysShow',
+                     }
+                   }
+                 }
+               }
+             })
+
+       });
+
+          }
+
+   });
+
+    }
+
   authenticate() {
     // this.props.nav.navigate("Calendar");
     const { email, password } = this.state
@@ -34,14 +172,13 @@ class LoginScreen extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => this.props.nav.navigate('Calendar'))
+        .then((user) => this.goHome(user))
         .catch(error => this.setState({ errorMessage: error.message }));
     }
     console.log(this.state.errorMessage);
   }
 
   render() {
-    const { navigate } = this.props.nav;
     return (
       <View style={loginStyles.container}>
         <Text
@@ -81,7 +218,24 @@ class LoginScreen extends React.Component {
             style={loginStyles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate("CreateAccountScreen")}>
+          onPress={() =>   Navigation.push(this.props.componentId, {
+  component: {
+    name: 'CreateAccount',
+    passProps: {
+      text: 'Back'
+    },
+    options: {
+      topBar: {
+        visible: false,
+        drawBehind: true,
+       animate: false,
+        title: {
+          text: 'Create Account'
+        }
+      }
+    }
+  }
+})}>
           <Text
             style={loginStyles.noAccountText}>{"Don't have an account? Tap here to create one."}</Text>
         </TouchableOpacity>
@@ -133,4 +287,4 @@ const loginStyles = StyleSheet.create({
   }
 });
 
-export default LoginScreen
+ export default LoginScreen

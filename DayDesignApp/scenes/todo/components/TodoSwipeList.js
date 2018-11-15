@@ -83,10 +83,6 @@ const TodoSwipeList = createReactClass({
     render() {
         return (
             <View style={styles.swipeListContainer}>
-            <ListItem style={styles.backButton}
-                      title="Back"
-                      textStyle={styles.backButtonText}
-                      onPress={() => this.props.nav.navigate("Calendar")} />
                 {this.renderAddButton()}
                 <SwipeList ref={this.setSwipeListRef}
                            rowData={this.rowData}

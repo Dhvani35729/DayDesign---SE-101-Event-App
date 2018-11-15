@@ -29,4 +29,8 @@ target 'DayDesign' do
 
   pod 'react-native-nfc-manager', :path => '../node_modules/react-native-nfc-manager'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
+
 end

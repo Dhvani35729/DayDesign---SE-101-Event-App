@@ -51,7 +51,6 @@ class Automate extends React.Component {
     }
 
     componentDidMount() {
-            const { nav } = this.props
         NfcManager.isSupported()
             .then(supported => {
                 this.setState({ supported });

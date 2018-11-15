@@ -10,7 +10,7 @@ Instructions to run:
 Requirements:
  - React
  - React Native
- - react-native-swipe-navigation
+ - react-native-navigation
  - react-native-nfc-manager
  - react-native-firebase
  - create-react-class

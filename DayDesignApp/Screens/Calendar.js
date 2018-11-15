@@ -1,56 +1,46 @@
 import React from 'react'
-import { View, Text, TouchableOpacity,  BackHandler } from 'react-native'
+import {  Modal, View, Text, TouchableOpacity, BackHandler, ScrollView, StyleSheet, PanResponder,
+    Animated, ListView, TouchableHighlight } from 'react-native'
 import firebase from 'react-native-firebase'
+import { Container, Content, Icon, Thumbnail, Card, CardItem, Header, Left, Right, Button } from 'native-base'
 
-myList = [];
-totalTodos = 0;
 
 class Calendar extends React.Component {
-    state = { currentUser: null }
+    state = {modalVisible: false, currentUser: null, rowId: 0 };
+
+    constructor() {
+          super();
+          const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+          this.state = {
+              pan: new Animated.ValueXY(),
+              dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4', 'row 5', 'row 6', 'row 7', 'row 8', 'row 9', 'row 10']),
+          };
+          this.state.modalVisible = false;
+      }
+
+    componentWillMount() {
+
+       this._val = { x: 0, y: 0 }
+       this.state.pan.addListener((value) => this._val = value);
+
+       this.panResponder = PanResponder.create({
+           onStartShouldSetPanResponder: () => true,
+           onPanResponderMove: Animated.event([null, {
+               dx: this.state.pan.x,
+               dy: this.state.pan.y
+           }]),
+           onPanResponderRelease: (e, gesture) => {
+               Animated.spring(this.state.pan, {
+                   toValue: { x: 0, y: 0 },
+                   friction: 5
+               }).start();
+           }
+       });
+   }
 
   componentDidMount() {
-    const { nav } = this.props
     const { currentUser } = firebase.auth()
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-
-    firebase.database().ref(currentUser.uid + '/total_todos').once('value').then(function(snapshot) {
-      totalTodos = snapshot.val();
-      // console.log(snapshot.val());
-      // console.log("what");
-    });
-
-    firebase.database().ref(currentUser.uid + '/len_list').once('value').then(function(snapshot) {
-
-     myList.length = snapshot.val();
-     if(myList.length != 0){
-
-    firebase.database().ref(currentUser.uid + '/todo').once('value').then(function(snapshot) {
-
-         var keys = Object.keys(snapshot.val());
-         var counter = 0;
-
-         for(var i = 0; i < keys.length; i++){
-
-           if(snapshot.val()[keys[i]] != null){
-
-             myList[counter] = {
-                 id: keys[i],
-                 title: String(snapshot.val()[keys[i]].name),
-                 complete: false,
-                 archived: false,
-                 progress: Math.random()
-             };
-
-             counter++;
-           }
-
-         }
-
-     });
-
-        }
-
- });
 
     this.setState({ currentUser })
   }
@@ -64,30 +54,94 @@ class Calendar extends React.Component {
         return false;
     }
 
-  logout(){
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-    }, function(error) {
-      // An error happened.
-    });
+  openModal(rowData){
+    console.log("CLICKED");
+    console.log(rowData);
+    this.setState({rowId: rowData});
+    this.setModalVisible(true);
   }
 
-  render() {
+  renderAgenda(rowData) {
+     return (
+         <Card>
+             <CardItem>
+                 <Left>
+                     <Text>Time-Start</Text>
+                 </Left>
+                 <Button transparent onPress={() => {this.openModal(rowData)}} style={{ padding: '10%', alignSelf: 'center' }}>
+                     <Icon name="add" />
+                 </Button>
+                 <Right>
+                     <Text>Time-End</Text>
+                 </Right>
+             </CardItem>
+         </Card>
+     );
+   }
 
-    const { currentUser } = this.state
+   setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
-    return (
-
-      <View style={{flex: 1, backgroundColor: '#63bcfc', alignItems: 'center', justifyContent: 'center', borderColor: 'gray', borderWidth: 1}}>
-        <Text style={{fontSize: 35}}>Hi {currentUser && currentUser.email}!</Text>
-        <TouchableOpacity style={{backgroundColor: '#333333', marginTop: 50, padding: 15}}
-          onPress={this.logout}
-        >
-          <Text style={{color: 'white'}}>LOGOUT</Text>
-        </TouchableOpacity>
+   render(){
+     const panStyle = {
+         transform: this.state.pan.getTranslateTransform()
+     }
+     return (
+         <Container style={styles.container}>
+             <Content>
+             <Modal
+      animationType="slide"
+      transparent={false}
+      visible={this.state.modalVisible}
+      onRequestClose={() => {
+        console.log('Modal has been closed.');
+      }}>
+      <View style={{marginTop: 22}}>
+        <View>
+          <Text>Hello World!</Text>
+          <Text>{this.state.rowId}</Text>
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(!this.state.modalVisible);
+            }}>
+            <Text>Hide Modal</Text>
+          </TouchableHighlight>
+        </View>
       </View>
-    );
-  }
+    </Modal>
+                 <Animated.View
+                     {...this.panResponder.panHandlers}
+                     style={[panStyle, styles.circle]}
+                 />
+
+                 <ListView
+                     dataSource={this.state.dataSource}
+                     renderRow={(rowData) => this.renderAgenda(rowData)}
+                 />
+
+             </Content>
+         </Container >
+     );
+ }
+
 }
+
+let CIRCLE_RADIUS = 30;
+let styles = StyleSheet.create({
+    circle: {
+        backgroundColor: "skyblue",
+        width: CIRCLE_RADIUS * 2,
+        height: CIRCLE_RADIUS * 2,
+        borderRadius: CIRCLE_RADIUS
+    },
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        borderColor: 'gray',
+       borderWidth: 1,
+    }
+})
 
 export default Calendar
