@@ -18,9 +18,9 @@ Navigation.events().registerAppLaunchedListener(async () => {
    Navigation.setDefaultOptions({
      bottomTab: {
        iconColor: '#1B4C77',
-       selectedIconColor: '#0f0',
+       selectedIconColor: '#EF8354',
        textColor: '#1B4C77',
-       selectedTextColor: '#0f0',
+       selectedTextColor: '#EF8354',
        fontFamily: 'HelveticaNeue-Italic',
        fontSize: 13
      },

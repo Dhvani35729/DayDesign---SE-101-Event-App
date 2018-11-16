@@ -70,6 +70,32 @@ class LoginScreen extends React.Component {
                    children: [
                      {
                        stack: {
+                         id: 'TAB2_ID',
+                         children: [
+                           {
+                             component: {
+                               name: 'Feed',
+                               passProps: {
+                                 text: 'This is tab 2'
+                               }
+                             }
+                           }
+                         ],
+                         options: {
+                           topBar: {
+                             visible: false,
+                             drawBehind: true,
+                              animate: false
+                           },
+                           bottomTab: {
+                             text: 'Feed',
+                             icon: require('../images/two.png')
+                           }
+                         }
+                       }
+                     },
+                     {
+                       stack: {
                          id: 'TAB1_ID',
                          children: [
                            {
@@ -105,44 +131,40 @@ class LoginScreen extends React.Component {
                      },
                      {
                        stack: {
+                         id: 'TAB3_ID',
                          children: [
                            {
-                             component: {
-                               name: 'Feed',
-                               passProps: {
-                                 text: 'This is tab 2'
-                               }
-                             }
-                           }
-                         ],
-                         options: {
-                           bottomTab: {
-                             text: 'Feed',
-                             icon: require('../images/two.png')
-                           }
-                         }
-                       }
-                     },
-                     {
                        component: {
                          name: 'TodoScene',
                          passProps: {
                            text: 'This is tab 3',
-                           todos: myList,
+                           todoList: myList,
                            count: totalTodos,
                            myFunction: () => 'Hello from a function!'
                          },
                          options: {
                            topBar: {
-                             visible: true,
-                             animate: false
-                           },
-                           bottomTab: {
-                             text: 'Todo',
-                             icon: require('../images/one.png'),
-                             selectedIcon: require('../images/one.png')
+                             visible: false,
+                             drawBehind: true,
+                              animate: false
                            }
                          }
+                       }
+                     }
+                       ],
+                       options: {
+                         topBar: {
+                           visible: false,
+                           drawBehind: true,
+                            animate: false
+                         },
+                         bottomTab: {
+                           text: 'Todo',
+                           icon: require('../images/one.png'),
+                           selectedIcon: require('../images/one.png')
+
+                         }
+                       }
                        }
                      }
                    ],

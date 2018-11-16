@@ -64,6 +64,11 @@ class Loading extends React.Component {
                                   }
                                 ],
                                 options: {
+                                  topBar: {
+                                    visible: false,
+                                    drawBehind: true,
+                                     animate: false
+                                  },
                                   bottomTab: {
                                     text: 'Feed',
                                     icon: require('../images/two.png')
@@ -118,6 +123,13 @@ class Loading extends React.Component {
                                   todoList: myList,
                                   count: totalTodos,
                                   myFunction: () => 'Hello from a function!'
+                                },
+                                options: {
+                                  topBar: {
+                                    visible: false,
+                                    drawBehind: true,
+                                     animate: false
+                                  }
                                 }
                               }
                             }
@@ -125,7 +137,8 @@ class Loading extends React.Component {
                               options: {
                                 topBar: {
                                   visible: false,
-                                  animate: false
+                                  drawBehind: true,
+                                   animate: false
                                 },
                                 bottomTab: {
                                   text: 'Todo',

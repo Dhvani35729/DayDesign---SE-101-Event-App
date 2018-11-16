@@ -4,12 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import community.revteltech.nfc.NfcManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import com.reactnativenavigation.NavigationApplication;
+import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.reactnativenavigation.react.ReactGateway;
 
 import io.invertase.firebase.RNFirebasePackage;
 // optional packages - add/remove as appropriate
@@ -32,7 +37,61 @@ import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends NavigationApplication {
+
+  @Override
+  protected ReactGateway createReactGateway() {
+    ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
+      @Override
+      protected String getJSMainModuleName() {
+        return "index";
+      }
+    };
+    return new ReactGateway(this, isDebug(), host);
+  }
+
+  @Override
+  public boolean isDebug() {
+    return BuildConfig.DEBUG;
+  }
+
+  @SuppressLint("MissingPermission")
+  protected List<ReactPackage> getPackages() {
+    // Add additional packages you require here
+    // No need to add RnnPackage and MainReactPackage
+//    return Arrays.<ReactPackage>asList(
+//      // eg. new VectorIconsPackage()
+//
+//    );
+    return Arrays.asList(
+      new MainReactPackage(),
+      new RNFirebasePackage(),
+      new VectorIconsPackage(),
+      new NfcManagerPackage(),
+      // add/remove these packages as appropriate
+      new RNFirebaseAdMobPackage(),
+      new RNFirebaseAnalyticsPackage(),
+      new RNFirebaseAuthPackage(),
+      new RNFirebaseRemoteConfigPackage(),
+      new RNFirebaseCrashlyticsPackage(),
+      new RNFirebaseDatabasePackage(),
+      new RNFirebaseFirestorePackage(),
+      new RNFirebaseFunctionsPackage(),
+      new RNFirebaseInstanceIdPackage(),
+      new RNFirebaseInvitesPackage(),
+      new RNFirebaseLinksPackage(),
+      new RNFirebaseMessagingPackage(),
+      new RNFirebaseNotificationsPackage(),
+      new RNFirebasePerformancePackage(),
+      new RNFirebaseStoragePackage()
+    );
+
+  }
+
+  @Override
+  public List<ReactPackage> createAdditionalReactPackages() {
+    return getPackages();
+  }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -44,26 +103,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
-        new MainReactPackage(),
-            new VectorIconsPackage(),
-            new NfcManagerPackage(),
-        new RNFirebasePackage(),
-        // add/remove these packages as appropriate
-        new RNFirebaseAdMobPackage(),
-        new RNFirebaseAnalyticsPackage(),
-        new RNFirebaseAuthPackage(),
-        new RNFirebaseRemoteConfigPackage(),
-        new RNFirebaseCrashlyticsPackage(),
-        new RNFirebaseDatabasePackage(),
-        new RNFirebaseFirestorePackage(),
-        new RNFirebaseFunctionsPackage(),
-        new RNFirebaseInstanceIdPackage(),
-        new RNFirebaseInvitesPackage(),
-        new RNFirebaseLinksPackage(),
-        new RNFirebaseMessagingPackage(),
-        new RNFirebaseNotificationsPackage(),
-        new RNFirebasePerformancePackage(),
-        new RNFirebaseStoragePackage()
+
       );
     }
 

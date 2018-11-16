@@ -116,14 +116,6 @@ const TodoScene = createReactClass({
        states = currentUser;
 
     },
-    componentDidUpdate(prevProps) {
-        console.log('wow outside');
-  if (this.props !== prevProps) {
-    console.log('wow');
-
-  }
-
-  },
 
     refresh(){
 
