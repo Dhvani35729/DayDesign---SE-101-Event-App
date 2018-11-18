@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNWifiPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import community.revteltech.nfc.NfcManagerPackage;
@@ -65,6 +66,7 @@ public class MainApplication extends NavigationApplication {
 //    );
     return Arrays.asList(
       new MainReactPackage(),
+            new RNWifiPackage(),
       new RNFirebasePackage(),
       new VectorIconsPackage(),
       new NfcManagerPackage(),

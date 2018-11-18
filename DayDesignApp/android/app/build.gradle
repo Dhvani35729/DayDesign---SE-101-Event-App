@@ -159,6 +159,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-wifi')
     compile project(':react-native-firebase')
 
   implementation project(':react-native-vector-icons')
