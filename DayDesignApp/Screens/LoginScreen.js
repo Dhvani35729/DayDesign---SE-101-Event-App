@@ -15,18 +15,17 @@ class LoginScreen extends React.Component {
   }
 
   componentDidMount() {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
-       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-   }
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-   handleBackButton() {
-      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
-        return false;
-    }
+  handleBackButton() {
+    //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return false;
+  }
 
     goHome(user){
 
@@ -37,33 +36,29 @@ class LoginScreen extends React.Component {
 
       firebase.database().ref(user.uid + '/len_list').once('value').then(function(snapshot) {
 
-       myList.length = snapshot.val();
-       if(myList.length != 0){
+      myList.length = snapshot.val();
+      if (myList.length != 0) {
 
-      firebase.database().ref(user.uid + '/todo').once('value').then(function(snapshot) {
+        firebase.database().ref(user.uid + '/todo').once('value').then(function(snapshot) {
+          var keys = Object.keys(snapshot.val());
+          var counter = 0;
 
-           var keys = Object.keys(snapshot.val());
-           var counter = 0;
+          for(var i = 0; i < keys.length; i++){
 
-           for(var i = 0; i < keys.length; i++){
+            if(snapshot.val()[keys[i]] != null){
 
-             if(snapshot.val()[keys[i]] != null){
+              myList[counter] = {
+                  id: keys[i],
+                  title: String(snapshot.val()[keys[i]].name),
+                  complete: false,
+                  archived: false,
+                  progress: Math.random()
+              };
 
-               myList[counter] = {
-                   id: keys[i],
-                   title: String(snapshot.val()[keys[i]].name),
-                   complete: false,
-                   archived: false,
-                   progress: Math.random()
-               };
-
-               counter++;
-             }
-
-           }
-
-           // put here
-           Navigation.setRoot({
+              counter++;
+            }
+          }
+          Navigation.setRoot({
                root: {
                  bottomTabs: {
                    id: 'BottomTabs',
@@ -177,11 +172,11 @@ class LoginScreen extends React.Component {
                }
              })
 
-       });
+            });
 
           }
 
-   });
+      });
 
     }
 
@@ -241,23 +236,23 @@ class LoginScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>   Navigation.push(this.props.componentId, {
-  component: {
-    name: 'CreateAccount',
-    passProps: {
-      text: 'Back'
-    },
-    options: {
-      topBar: {
-        visible: false,
-        drawBehind: true,
-       animate: false,
-        title: {
-          text: 'Create Account'
-        }
-      }
-    }
-  }
-})}>
+            component: {
+              name: 'CreateAccount',
+              passProps: {
+                text: 'Back'
+              },
+              options: {
+                topBar: {
+                  visible: false,
+                  drawBehind: true,
+                animate: false,
+                  title: {
+                    text: 'Create Account'
+                  }
+                }
+              }
+            }
+          })}>
           <Text
             style={loginStyles.noAccountText}>{"Don't have an account? Tap here to create one."}</Text>
         </TouchableOpacity>

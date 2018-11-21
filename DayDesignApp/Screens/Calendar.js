@@ -15,21 +15,21 @@ class Calendar extends React.Component {
     state = {modalVisible: false, currentUser: null, rowId: 0, row2Id: '' };
 
     constructor() {
-          super();
-          const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-          this.state = {
-              pan: new Animated.ValueXY(),
-              dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4', 'row 5', 'row 6', 'row 7', 'row 8', 'row 9', 'row 10']),
-              supported: true,
-              enabled: false,
-              isWriting: false,
-              urlToWrite: 'https://www.google.com',
-              rtdType: RtdType.URL,
-              parsedText: null,
-              tag: {},
-          };
-          this.state.modalVisible = false;
-      }
+    super();
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+        pan: new Animated.ValueXY(),
+        dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4', 'row 5', 'row 6', 'row 7', 'row 8', 'row 9', 'row 10']),
+        supported: true,
+        enabled: false,
+        isWriting: false,
+        urlToWrite: 'https://www.google.com',
+        rtdType: RtdType.URL,
+        parsedText: null,
+        tag: {},
+    };
+    this.state.modalVisible = false;
+    }
 
     componentWillMount() {
 
@@ -60,7 +60,7 @@ class Calendar extends React.Component {
 
   componentWillUnmount() {
        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-   }
+  }
 
    handleBackButton() {
       //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);

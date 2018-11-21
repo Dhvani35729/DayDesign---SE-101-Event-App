@@ -19,10 +19,10 @@ class Feed extends React.Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
     Navigation.mergeOptions(this.props.componentId, {
-     bottomTabs: {
-       currentTabId: 'TAB1_ID'
-     }
-   });
+      bottomTabs: {
+        currentTabId: 'TAB1_ID'
+      }
+    });
 
 
   }

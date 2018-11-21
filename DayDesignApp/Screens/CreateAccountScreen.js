@@ -6,7 +6,7 @@ import { Navigation } from 'react-native-navigation'
 
 class CreateAccountScreen extends React.Component {
 
-    state = { email: '', password: '', errorMessage: null, firstName: '', lastName: '' }
+  state = { email: '', password: '', errorMessage: null, firstName: '', lastName: '' }
 
   constructor(props) {
     super();
@@ -14,53 +14,51 @@ class CreateAccountScreen extends React.Component {
   }
 
   componentDidMount() {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
-       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-   }
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-   handleBackButton() {
-      //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
-        return false;
-    }
+  handleBackButton() {
+    //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return false;
+  }
 
   createAccount() {
     //Add account to Firebase through this method
-    const { email, password, firstName, lastName } = this.state
+    const { email, password, firstName, lastName } = this.state;
     if(email.trim() == "" || password.trim() == "" || firstName.trim() == "" || lastName.trim() == "") {
       this.setState({errorMessage: "Please fill in all fields!"});
     } else {
       firebase.auth()
-              .createUserWithEmailAndPassword(email, password)
-              .then((user => {
-                firebase.database().ref(user.user.uid + '/len_list').set(0);
-                firebase.database().ref(user.user.uid + '/total_todos').set(0);
-                firebase.database().ref(user.user.uid + '/full_name').set(firstName + ' ' + lastName);
-               user.user.sendEmailVerification();
-                firebase.auth().signOut().then(function() {
-                  // Sign-out successful.
-                  Navigation.setRoot({
-                root: {
-                  stack: {
-                    id: 'App',
-                    children: [
-                      {
-                        component: {
-                          name: 'Login',
-                        }
+        .createUserWithEmailAndPassword(email, password)
+        .then((user => {
+          firebase.database().ref(user.user.uid + '/len_list').set(0);
+          firebase.database().ref(user.user.uid + '/total_todos').set(0);
+          firebase.database().ref(user.user.uid + '/full_name').set(firstName + ' ' + lastName);
+          user.user.sendEmailVerification();
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            Navigation.setRoot({
+              root: {
+                stack: {
+                  id: 'App',
+                  children: [
+                    {
+                      component: {
+                        name: 'Login',
                       }
+                    }
                   ],
-                  }
                 }
-              })
-                }, function(error) {
-                  // An error happened.
-                });
-
-              }))
-              .catch(error => this.setState({ errorMessage: error.message }));
+              }
+            });
+          }, function(error) {
+            // An error happened.
+          });
+        })).catch(error => this.setState({ errorMessage: error.message }));
       }
     }
 
