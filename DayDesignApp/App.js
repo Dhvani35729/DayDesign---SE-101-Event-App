@@ -1,21 +1,54 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 
-// Don't need this file, we keep it for possible future use
-class App extends Component {
+export default class HelloWorldApp extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        // <Navigator />
+      <View>
+        <Text>Hello world!</Text>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
+// import React from 'react';
+// import { View, Text } from 'react-native';
+// import { createStackNavigator, createAppContainer } from 'react-navigation';
+//
+// class HomeScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1}}>
+//         <Text>Home Screen</Text>
+//       </View>
+//     );
+//   }
+// }
+//
+// class DetailsScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1}}>
+//         <Text>Details Screen</Text>
+//       </View>
+//     );
+//   }
+// }
+//
+// const RootStack = createStackNavigator(
+//   {
+//     Home: HomeScreen,
+//     Details: DetailsScreen,
+//   },
+//   {
+//     initialRouteName: 'Home',
+//   }
+// );
+//
+// const AppContainer = createAppContainer(RootStack);
+//
+// export default class App extends React.Component {
+//   render() {
+//     return <AppContainer />;
+//   }
+// }
