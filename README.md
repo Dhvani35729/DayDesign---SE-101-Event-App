@@ -1,4 +1,6 @@
-DayDesign
+DayDesign - SE 101 Project
 
-Stay tuned...
+See proposal for details.
+
+
 
